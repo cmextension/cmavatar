@@ -10,6 +10,10 @@
 	<creationDate>April 17, 2015</creationDate>
 	<description>PLG_USER_CMAVATAR_XML_DESCRIPTION</description>
 
+	<updateservers>
+		<server type="extension" priority="1" name="CM Avatar plugin">http://www.cmext.vn/joomla/extensions/update/plg_user_cmavatar.xml</server>
+	</updateservers>
+
 	<files>
 		<filename plugin="cmavatar">cmavatar.php</filename>
 		<file>helper.php</file>
