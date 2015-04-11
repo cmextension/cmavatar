@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" type="plugin" group="user" method="upgrade">
+	<name>PLG_USER_CMAVATAR</name>
+	<version>1.0.0</version>
+	<copyright>(C) 2015 CMExtension team</copyright>
+	<author>CMExtension team</author>
+	<authorEmail>cmext.vn@gmail.com</authorEmail>
+	<authorUrl>www.cmext.vn</authorUrl>
+	<license>GNU General Public License version 2 or later</license>
+	<creationDate>April 17, 2015</creationDate>
+	<description>PLG_USER_CMAVATAR_XML_DESCRIPTION</description>
+
+	<files>
+		<filename plugin="cmavatar">cmavatar.php</filename>
+		<file>helper.php</file>
+		<folder>fields</folder>
+		<folder>language</folder>
+		<folder>layouts</folder>
+		<folder>profiles</folder>
+	</files>
+
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="folder" type="text" default=""
+					label="PLG_USER_CMAVATAR_FIELD_FOLDER_LABEL"
+					description="PLG_USER_CMAVATAR_FIELD_FOLDER_DESC" />
+
+				<field name="allowed_extensions" type="text" default="bmp,gif,jpg,png"
+					label="PLG_USER_CMAVATAR_FIELD_ALLOWED_EXTENSIONS_LABEL"
+					description="PLG_USER_CMAVATAR_FIELD_ALLOWED_EXTENSIONS_DESC" />
+
+				<field name="max_size" type="text" default="2" filter="uint"
+					label="PLG_USER_CMAVATAR_FIELD_MAX_SIZE_LABEL"
+					description="PLG_USER_CMAVATAR_FIELD_MAX_SIZE_DESC" />
+
+				<field name="width" type="text" default="100" filter="uint"
+					label="PLG_USER_CMAVATAR_FIELD_WIDTH_LABEL"
+					description="PLG_USER_CMAVATAR_FIELD_WIDTH_DESC" />
+
+				<field name="display_avatar_in_profile" type="radio" default="0"
+					label="PLG_USER_CMAVATAR_FIELD_DISPLAY_AVATAR_IN_PROFILE_LABEL"
+					description="PLG_USER_CMAVATAR_FIELD_DISPLAY_AVATAR_IN_PROFILE_DESC">
+						<option value="1">JYES</option>
+						<option value="0">JNO</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
