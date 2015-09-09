@@ -160,7 +160,7 @@ class PlgUserCMAvatar extends JPlugin
 		// If the avatar folder doesn't exist, we don't display the fields.
 		if (!JFolder::exists($avatarFolder))
 		{
-			return false;
+			return true;
 		}
 
 		$layout = JFactory::getApplication()->input->get('layout', 'default');
@@ -225,9 +225,7 @@ class PlgUserCMAvatar extends JPlugin
 
 			if (empty($file['name']))
 			{
-				throw new RuntimeException(JText::_('PLG_USER_CMAVATAR_ERROR_NO_INPUT'));
-
-				return false;
+				return true;
 			}
 
 			$fileTypes = explode('.', $file['name']);
@@ -307,15 +305,55 @@ class PlgUserCMAvatar extends JPlugin
 			$originalHeight = $avatar->getHeight();
 			$ratio = $originalWidth / $originalHeight;
 
-			$newWidth = (int) $this->params->get('width', 100);
+			$maxWidth = (int) $this->params->get('width', 100);
+			$maxHeight = (int) $this->params->get('height', 100);
 
 			// Invalid value in the plugin configuration. Set avatar width to 100.
-			if ($newWidth <= 0)
+			if ($maxWidth <= 0)
 			{
-				$newWidth = 100;
+				$maxWidth = 100;
 			}
 
-			$newHeight = $newWidth / $ratio;
+			if ($maxHeight <= 0)
+			{
+				$maxHeight = 100;
+			}
+
+			if ($originalWidth > $maxWidth)
+			{
+				$ratio = $originalWidth / $originalHeight;
+
+				$newWidth = $maxWidth;
+				$newHeight = $newWidth / $ratio;
+
+				if ($newHeight > $maxHeight)
+				{
+					$ratio = $newWidth / $newHeight;
+
+					$newHeight = $maxHeight;
+					$newWidth = $newHeight * $ratio;
+				}
+			}
+			elseif ($originalHeight > $maxHeight)
+			{
+				$ratio = $originalWidth / $originalHeight;
+
+				$newHeight = $maxHeight;
+				$newWidth = $newHeight * $ratio;
+
+				if ($newWidth > $maxWidth)
+				{
+					$ratio = $newWidth / $newHeight;
+
+					$newWidth = $maxWidth;
+					$newHeight = $newWidth / $ratio;
+				}
+			}
+			else
+			{
+				$newWidth = $originalWidth;
+				$newHeight = $originalHeight;
+			}
 
 			$resizedAvatar = $avatar->resize($newWidth, $newHeight, true);
 			$resizedAvatar->toFile($avatarPath);

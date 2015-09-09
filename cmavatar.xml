@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" type="plugin" group="user" method="upgrade">
 	<name>PLG_USER_CMAVATAR</name>
-	<version>1.0.1</version>
+	<version>1.1.0</version>
 	<copyright>(C) 2015 CMExtension team</copyright>
 	<author>CMExtension team</author>
 	<authorEmail>cmext.vn@gmail.com</authorEmail>
 	<authorUrl>www.cmext.vn</authorUrl>
 	<license>GNU General Public License version 2 or later</license>
-	<creationDate>May 3, 2015</creationDate>
+	<creationDate>September 9, 2015</creationDate>
 	<description>PLG_USER_CMAVATAR_XML_DESCRIPTION</description>
 
 	<updateservers>
@@ -41,6 +41,10 @@
 				<field name="width" type="text" default="100" filter="uint"
 					label="PLG_USER_CMAVATAR_FIELD_WIDTH_LABEL"
 					description="PLG_USER_CMAVATAR_FIELD_WIDTH_DESC" />
+
+				<field name="height" type="text" default="100" filter="uint"
+					label="PLG_USER_CMAVATAR_FIELD_HEIGHT_LABEL"
+					description="PLG_USER_CMAVATAR_FIELD_HEIGHT_DESC" />
 
 				<field name="display_avatar_in_profile" type="radio" default="0"
 					label="PLG_USER_CMAVATAR_FIELD_DISPLAY_AVATAR_IN_PROFILE_LABEL"
