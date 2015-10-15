@@ -63,7 +63,7 @@ class PlgUserCMAvatar extends JPlugin
 	 * Runs on content preparation
 	 *
 	 * @param   string   $context  The context for the data
-	 * @param   integer  $data     The user id
+	 * @param   object   $data     An object containing the data for the profile page.
 	 *
 	 * @return  boolean
 	 *
@@ -299,6 +299,22 @@ class PlgUserCMAvatar extends JPlugin
 				return false;
 			}
 
+			// Check file type
+			$info = JImage::getImageFileProperties($file['tmp_name']);
+
+			switch ($info->type)
+			{
+				case IMAGETYPE_GIF:
+					$type = IMAGETYPE_GIF;
+					break;
+				case IMAGETYPE_PNG:
+					$type = IMAGETYPE_PNG;
+					break;
+				case IMAGETYPE_JPEG:
+				default:
+					$type = IMAGETYPE_JPEG;
+			}
+
 			// Start resizing the file.
 			$avatar = new JImage($file['tmp_name']);
 			$originalWidth = $avatar->getWidth();
@@ -356,7 +372,7 @@ class PlgUserCMAvatar extends JPlugin
 			}
 
 			$resizedAvatar = $avatar->resize($newWidth, $newHeight, true);
-			$resizedAvatar->toFile($avatarPath);
+			$resizedAvatar->toFile($avatarPath, $type);
 
 			// Delete current avatar if exists.
 			$this->deleteAvatar($userId);
