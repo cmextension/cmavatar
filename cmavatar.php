@@ -95,7 +95,15 @@ class PlgUserCMAvatar extends JPlugin
 				if (!empty($currentAvatar))
 				{
 					$folder = $this->params->get('folder', '');
-					$avatarPath = $folder . '/' . $currentAvatar . '.' . $this->extension;
+					$avatarPath = $folder . '/' . $currentAvatar;
+
+					// Backwards compatibility: Add .jpg if the file name does not contain any file extension.
+					$fileTypes = explode('.', $avatarPath);
+
+					if (count($fileTypes) < 2)
+					{
+						$avatarPath .= '.' . $this->extension;
+					}
 
 					$layout = JFactory::getApplication()->input->get('layout', 'default');
 
@@ -289,7 +297,36 @@ class PlgUserCMAvatar extends JPlugin
 				return false;
 			}
 
-			$avatarPath = JPath::clean($avatarFolder . '/' . $avatarFileName . '.' . $this->extension);
+			// Check file type
+			$info = JImage::getImageFileProperties($file['tmp_name']);
+
+			switch ($info->type)
+			{
+				case IMAGETYPE_GIF:
+					$type      = IMAGETYPE_GIF;
+					$extension = 'gif';
+					break;
+				case IMAGETYPE_PNG:
+					$type      = IMAGETYPE_PNG;
+					$extension = 'png';
+					break;
+				case IMAGETYPE_JPEG:
+				default:
+					$type      = IMAGETYPE_JPEG;
+					$extension = 'jpg';
+			}
+
+			if ($fileType == '' || $fileType == false || (!in_array($extension, $allowable)))
+			{
+				throw new RuntimeException(JText::_('PLG_USER_CMAVATAR_ERROR_FILE_TYPE'));
+
+				return false;
+			}
+
+
+			$avatarFileName = $avatarFileName . '.' . $extension;
+
+			$avatarPath = JPath::clean($avatarFolder . '/' . $avatarFileName);
 
 			if (JFile::exists($avatarPath))
 			{
@@ -297,22 +334,6 @@ class PlgUserCMAvatar extends JPlugin
 				throw new RuntimeException(JText::_('PLG_USER_CMAVATAR_ERROR_FILE_EXISTS'));
 
 				return false;
-			}
-
-			// Check file type
-			$info = JImage::getImageFileProperties($file['tmp_name']);
-
-			switch ($info->type)
-			{
-				case IMAGETYPE_GIF:
-					$type = IMAGETYPE_GIF;
-					break;
-				case IMAGETYPE_PNG:
-					$type = IMAGETYPE_PNG;
-					break;
-				case IMAGETYPE_JPEG:
-				default:
-					$type = IMAGETYPE_JPEG;
 			}
 
 			// Start resizing the file.
@@ -498,7 +519,15 @@ class PlgUserCMAvatar extends JPlugin
 
 		if (!empty($currentAvatar))
 		{
-			$currentAvatarPath = JPath::clean($avatarFolder . '/' . $currentAvatar . '.' . $this->extension);
+			$currentAvatarPath = JPath::clean($avatarFolder . '/' . $currentAvatar);
+
+			// Backwards compatibility: Add .jpg if the file name does not contain any file extension.
+			$fileTypes = explode('.', $currentAvatarPath);
+
+			if (count($fileTypes) < 2)
+			{
+				$currentAvatarPath .= '.' . $this->extension;
+			}
 
 			if (JFile::exists($currentAvatarPath))
 			{
