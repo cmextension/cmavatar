@@ -51,7 +51,15 @@ class PlgUserCMAvatarHelper
 			$params = new JRegistry($plugin->params);
 			$folder = $params->get('folder', '');
 
-			$avatar = JPath::clean($folder . '/' . $avatar . '.' . $extension);
+			// Backwards compatibility: Add .jpg if the file name does not contain any file extension.
+			$fileTypes = explode('.', $avatar);
+
+			if (count($fileTypes) < 2)
+			{
+				$avatar .= '.jpg';
+			}
+
+			$avatar = JPath::clean($folder . '/' . $avatar);
 		}
 
 		return $avatar;
