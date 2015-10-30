@@ -62,8 +62,8 @@ class PlgUserCMAvatar extends JPlugin
 	/**
 	 * Runs on content preparation
 	 *
-	 * @param   string   $context  The context for the data
-	 * @param   object   $data     An object containing the data for the profile page.
+	 * @param   string  $context  The context for the data
+	 * @param   object  $data     An object containing the data for the profile page.
 	 *
 	 * @return  boolean
 	 *
@@ -71,8 +71,10 @@ class PlgUserCMAvatar extends JPlugin
 	 */
 	public function onContentPrepareData($context, $data)
 	{
+		$app = JFactory::getApplication();
+
 		// Only run in front-end.
-		if (!JFactory::getApplication()->isSite())
+		if (!$app->isSite())
 		{
 			return true;
 		}
@@ -105,9 +107,20 @@ class PlgUserCMAvatar extends JPlugin
 						$avatarPath .= '.' . $this->extension;
 					}
 
-					$layout = JFactory::getApplication()->input->get('layout', 'default');
+					$item = $app->getMenu()->getActive();
 
-					if ($layout != 'default')
+					if (isset($item->id))
+					{
+						$view = $item->query['view'];
+						$layout = (isset($item->query['layout'])) ? $item->query['layout'] : 'default';
+					}
+					else
+					{
+						$view = $app->input->get('view');
+						$layout = $app->input->get('layout', 'default');
+					}
+
+					if ($view == 'profile' && $layout != 'default')
 					{
 						$data->cmavatar['cmavatar'] = $avatarPath;
 					}
@@ -303,17 +316,17 @@ class PlgUserCMAvatar extends JPlugin
 			switch ($info->type)
 			{
 				case IMAGETYPE_GIF:
-					$type      = IMAGETYPE_GIF;
-					$extension = 'gif';
+					$type		= IMAGETYPE_GIF;
+					$extension	= 'gif';
 					break;
 				case IMAGETYPE_PNG:
-					$type      = IMAGETYPE_PNG;
-					$extension = 'png';
+					$type		= IMAGETYPE_PNG;
+					$extension	= 'png';
 					break;
 				case IMAGETYPE_JPEG:
 				default:
-					$type      = IMAGETYPE_JPEG;
-					$extension = 'jpg';
+					$type		= IMAGETYPE_JPEG;
+					$extension	= 'jpg';
 			}
 
 			if ($fileType == '' || $fileType == false || (!in_array($extension, $allowable)))
@@ -322,7 +335,6 @@ class PlgUserCMAvatar extends JPlugin
 
 				return false;
 			}
-
 
 			$avatarFileName = $avatarFileName . '.' . $extension;
 
