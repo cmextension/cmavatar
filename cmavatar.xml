@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" type="plugin" group="user" method="upgrade">
 	<name>PLG_USER_CMAVATAR</name>
-	<version>1.1.0</version>
+	<version>1.1.1</version>
 	<copyright>(C) 2015 CMExtension team</copyright>
 	<author>CMExtension team</author>
 	<authorEmail>cmext.vn@gmail.com</authorEmail>
 	<authorUrl>www.cmext.vn</authorUrl>
 	<license>GNU General Public License version 2 or later</license>
-	<creationDate>September 9, 2015</creationDate>
+	<creationDate>October 17, 2015</creationDate>
 	<description>PLG_USER_CMAVATAR_XML_DESCRIPTION</description>
 
 	<updateservers>
